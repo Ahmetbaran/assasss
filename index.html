@@ -3,7 +3,6 @@
 <head>
 <meta charset="UTF-8">
 <title>Has Karadeniz</title>
-
 <style>
 body {
     font-family: Arial;
@@ -11,37 +10,28 @@ body {
     color: white;
     text-align: center;
 }
-
 .logo {
     font-size: 30px;
     font-weight: bold;
     margin: 20px;
 }
-
-.container {
-    margin-top: 20px;
-}
-
 select, button, input {
     padding: 10px;
     margin: 5px;
     border-radius: 5px;
     border: none;
 }
-
 button {
     background: #00a8ff;
     color: white;
     cursor: pointer;
 }
-
 .sefer {
     margin: 10px;
     padding: 10px;
     background: #273c75;
     border-radius: 10px;
 }
-
 .koltuklar {
     display: grid;
     grid-template-columns: repeat(5, 50px);
@@ -49,7 +39,6 @@ button {
     justify-content: center;
     margin-top: 10px;
 }
-
 .koltuk-btn {
     padding: 10px;
     background: white;
@@ -57,20 +46,17 @@ button {
     cursor: pointer;
     border-radius: 5px;
 }
-
 .dolu {
     background: red;
     color: white;
     cursor: not-allowed;
 }
-
 .secili {
     background: green !important;
     color: white;
 }
 </style>
 </head>
-
 <body>
 
 <div class="logo">🚌 HAS KARADENİZ</div>
@@ -86,7 +72,7 @@ button {
 <div id="bilet"></div>
 
 <script>
-// DOM elementlerini seç
+// DOM elementlerini al
 const from = document.getElementById("from");
 const to = document.getElementById("to");
 const seferler = document.getElementById("seferler");
@@ -119,8 +105,7 @@ function seferleriGoster() {
     let html = "<h2>Seferler</h2>";
 
     saatler.forEach((saat,i)=>{
-        html += `
-        <div class="sefer">
+        html += `<div class="sefer">
         ${from.value} → ${to.value} | ${saat} | ${fiyatlar[i]} TL
         <br><button onclick="koltukSec(${i})">Seç</button>
         </div>`;
@@ -144,15 +129,13 @@ function koltukSec(i){
     html += "</div>";
     koltukAlani.innerHTML = html;
 
-    // Koltuk tıklama olayları
     for(let k=1;k<=41;k++){
         const btn = document.getElementById(`koltuk${k}`);
         if(!btn.classList.contains("dolu")){
-            btn.addEventListener("click",()=>koltukTikla(btn,k));
+            btn.addEventListener("click", ()=> koltukTikla(btn,k));
         }
     }
 
-    // Form
     formAlani.innerHTML = `
     <select id="cinsiyet">
         <option>Erkek</option>
@@ -180,7 +163,6 @@ function odeme(){
         return;
     }
 
-    // Koltuğu dolu yap (demo)
     doluKoltuklar[secilenSefer].push(secilenKoltuk);
 
     bilet.innerHTML = `
@@ -193,7 +175,6 @@ function odeme(){
     </div>
     `;
 
-    // Seçimi temizle
     koltukAlani.innerHTML = "";
     formAlani.innerHTML = "";
 }
