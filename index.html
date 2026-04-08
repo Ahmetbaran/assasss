@@ -12,19 +12,17 @@
             --accent: #f39c12;
             --success: #27ae60;
             --text: #333;
-            --panel-bg: rgba(255, 255, 255, 0.95); /* Paneller hafif şeffaf */
+            --panel-bg: rgba(255, 255, 255, 0.95);
         }
 
-        /* Arka Plan Manzarası ve Ayarları */
         body {
             font-family: 'Segoe UI', sans-serif;
             margin: 0;
             padding: 20px;
-            /* Trabzon Uzungöl Manzarası */
-            background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('https://images.unsplash.com/photo-1621216395563-049c321045f9?q=80&w=1920&auto=format&fit=crop');
+            background: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)), 
+                        url('https://images.pexels.com/photos/18413158/pexels-photo-18413158.jpeg') no-repeat center center fixed;
             background-size: cover;
-            background-position: center;
-            background-attachment: fixed; /* Arka plan sabit kalır, içerik kayar */
+            min-height: 100vh;
             color: var(--text);
         }
 
@@ -32,77 +30,48 @@
 
         header {
             background: linear-gradient(to right, rgba(0, 4, 40, 0.9), rgba(0, 78, 146, 0.9));
-            color: white; padding: 30px; border-radius: 15px; text-align: center; margin-bottom: 20px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+            color: white; padding: 25px; border-radius: 15px; text-align: center; margin-bottom: 20px;
         }
 
-        /* Şeffaflaştırılmış Paneller */
         .search-panel {
-            background: var(--panel-bg); padding: 25px; border-radius: 15px;
-            display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            background: var(--panel-bg); padding: 20px; border-radius: 15px;
+            display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
             gap: 15px; box-shadow: 0 4px 15px rgba(0,0,0,0.2);
         }
 
-        input, select, button { padding: 12px; border-radius: 8px; border: 1px solid #ddd; font-size: 14px; }
-        input:focus, select:focus { border-color: var(--primary); outline: none; }
-        button { background: var(--accent); color: white; border: none; cursor: pointer; font-weight: bold; transition: 0.3s; }
-        button:hover { opacity: 0.9; transform: translateY(-1px); }
+        input, select, button { padding: 12px; border-radius: 8px; border: 1px solid #ddd; }
+        button { background: var(--accent); color: white; border: none; cursor: pointer; font-weight: bold; }
 
-        /* Seferler */
         .trip-list { margin-top: 25px; display: none; }
         .trip-card {
-            background: var(--panel-bg); padding: 20px; margin-bottom: 15px; border-radius: 12px;
+            background: var(--panel-bg); padding: 20px; margin-bottom: 10px; border-radius: 12px;
             display: flex; justify-content: space-between; align-items: center;
-            border-left: 8px solid var(--primary); box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            border-left: 8px solid var(--primary);
         }
 
-        .info-btn {
-            background: rgba(0, 78, 146, 0.1); color: var(--primary); padding: 5px 12px; 
-            border-radius: 5px; cursor: pointer; font-size: 0.8rem; display: inline-block; margin-top: 8px;
-            transition: 0.2s;
-        }
-        .info-btn:hover { background: rgba(0, 78, 146, 0.2); }
-
-        /* Modal (Güzergah) */
-        .modal {
-            display: none; position: fixed; z-index: 1000; left: 0; top: 0;
-            width: 100%; height: 100%; background: rgba(0,0,0,0.8);
-            backdrop-filter: blur(3px); /* Arka planı bulanıklaştırır */
-        }
-        .modal-content {
-            background: white; margin: 10% auto; padding: 30px; border-radius: 15px;
-            width: 85%; max-width: 450px; text-align: center; position: relative;
-            box-shadow: 0 5px 25px rgba(0,0,0,0.5);
-        }
-        .route-step { display: flex; align-items: center; justify-content: start; margin-bottom: 10px; font-weight: 500;}
-        .route-number { background: var(--primary); color: white; border-radius: 50%; width: 25px; height: 25px; display: flex; align-items: center; justify-content: center; margin-right: 15px; font-size: 0.8rem;}
-
-        /* Otobüs */
-        .bus-layout { background: var(--panel-bg); padding: 25px; border-radius: 15px; display: none; margin-top: 20px; box-shadow: 0 4px 20px rgba(0,0,0,0.2); }
+        /* Otobüs Düzeni */
+        .bus-layout { background: var(--panel-bg); padding: 25px; border-radius: 15px; display: none; margin-top: 20px; }
         .seat-grid { display: grid; grid-template-columns: 45px 45px 45px 45px; gap: 12px; justify-content: center; }
         .seat {
             width: 40px; height: 40px; background: #eee; border: 1px solid #ccc;
             border-radius: 6px; display: flex; align-items: center; justify-content: center;
             font-size: 12px; cursor: pointer; font-weight: bold;
         }
-        .seat.selected { background: var(--success); color: white; border-color: var(--success); }
-        .seat.sold { background: #e74c3c; color: white; cursor: not-allowed; opacity: 0.7; }
+        .seat.selected { background: var(--success); color: white; }
+        .seat.sold { background: #e74c3c; color: white; cursor: not-allowed; opacity: 0.6; }
         .aisle { width: 30px; }
 
-        /* Bilet */
-        #ticket-result { display: none; background: white; padding: 40px; border: 3px double #333; margin-top: 20px; border-radius: 10px; color: black; box-shadow: 0 0 20px rgba(0,0,0,0.2);}
-        .ticket-header { border-bottom: 2px solid var(--primary); margin-bottom: 20px; padding-bottom: 10px; }
-
-        @media print {
-            body * { visibility: hidden; background: none !important; }
-            #ticket-result, #ticket-result * { visibility: visible; }
-            #ticket-result { position: absolute; left: 0; top: 0; width: 100%; border: none; box-shadow: none;}
+        /* Bilet Çıktısı */
+        #ticket-result { display: none; background: white; padding: 40px; border: 3px double #333; margin-top: 20px; border-radius: 10px; color: black; }
+        
+        /* Modal / Uyarı */
+        .modal {
+            display: none; position: fixed; z-index: 1000; left: 0; top: 0;
+            width: 100%; height: 100%; background: rgba(0,0,0,0.8);
         }
-
-        /* Mobilde daha iyi görünüm */
-        @media (max-width: 600px) {
-            .trip-card { flex-direction: column; text-align: center; gap: 10px; }
-            .seat-grid { scale: 0.9; }
+        .modal-content {
+            background: white; margin: 15% auto; padding: 25px; border-radius: 15px;
+            width: 80%; max-width: 400px; text-align: center;
         }
     </style>
 </head>
@@ -111,70 +80,49 @@
 <div class="container">
     <header>
         <h1>HAS KARADENİZ SEYAHAT</h1>
-        <p><i class="fas fa-mountain"></i> Trabzon'dan Tüm Türkiye'ye Konforlu Ulaşım</p>
+        <p>Konforun ve Güvenin Adresi</p>
     </header>
 
     <div class="search-panel">
-        <div>
-            <label><small>Kalkış Noktası</small></label><br>
-            <select id="from" style="width: 100%;">
-                <option value="Trabzon">Trabzon</option>
-                <option value="Rize">Rize</option>
-            </select>
-        </div>
-        <div>
-            <label><small>Varış Noktası</small></label><br>
-            <select id="to" style="width: 100%;">
-                <option value="Iğdır">Iğdır</option>
-                <option value="İstanbul">İstanbul</option>
-                <option value="Ankara">Ankara</option>
-            </select>
-        </div>
-        <div>
-            <label><small>Gidiş Tarihi</small></label><br>
-            <input type="date" id="travelDate" style="width: 90%;" value="2026-04-10">
-        </div>
-        <button onclick="findTrips()" style="margin-top: 18px;"><i class="fas fa-search"></i> SEFER ARA</button>
+        <select id="from"><option value="Trabzon">Trabzon</option></select>
+        <select id="to"><option value="Iğdır">Iğdır</option><option value="İstanbul">İstanbul</option></select>
+        <input type="date" value="2026-04-10">
+        <button onclick="findTrips()">SEFER ARA</button>
     </div>
 
     <div id="trip-list" class="trip-list"></div>
 
-    <div id="routeModal" class="modal">
+    <div id="seatModal" class="modal">
         <div class="modal-content">
-            <h3 style="color:var(--primary); margin-top: 0;">Sefer Güzergahı</h3>
-            <hr style="border: 0; border-top: 1px solid #eee; margin-bottom: 20px;">
-            <div id="routeSteps" style="margin-bottom: 25px;"></div>
-            <button onclick="closeModal()" style="background:#7f8c8d; width: 100%">Kapat</button>
+            <h3 style="color:var(--accent)"><i class="fas fa-exclamation-circle"></i> Tekli Koltuk Seçimi</h3>
+            <p>Tekli koltuklarda <b>50 TL</b> ekstra ücret uygulanmaktadır.</p>
+            <button onclick="closeSeatModal()" style="width:100%">TAMAM</button>
         </div>
     </div>
 
     <div id="bus-selection" class="bus-layout">
-        <h3 style="text-align:center">Travego 2+1 VIP - Koltuk Seçimi</h3>
+        <h3 style="text-align:center">Travego 2+1 VIP Koltuk Seçimi</h3>
         <div id="seats-container" class="seat-grid"></div>
-        <div id="passenger-info" style="margin-top:25px; text-align:center; display:none; background: rgba(0,0,0,0.05); padding: 20px; border-radius: 10px;">
-            <input type="text" id="pName" placeholder="Yolcu Ad Soyad" style="width:220px;">
-            <button onclick="buyTicket()" style="background:var(--success); margin-left: 10px;">BİLETİ ONAYLA</button>
+        <div id="passenger-info" style="margin-top:25px; text-align:center; display:none;">
+            <p id="price-preview" style="font-weight:bold; color:var(--primary)"></p>
+            <input type="text" id="pName" placeholder="Ad Soyad">
+            <button onclick="buyTicket()" style="background:var(--success)">BİLETİ AL</button>
         </div>
     </div>
 
     <div id="ticket-result">
-        <div class="ticket-header" style="text-align:center">
-            <h2 style="margin:0">HAS KARADENİZ BİLETİ</h2>
-            <p>Konforun Tek Adresi</p>
+        <div style="text-align:center; border-bottom:2px solid #004e92">
+            <h2>HAS KARADENİZ YOLCU BİLETİ</h2>
         </div>
-        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px; font-size: 1.1rem;">
-            <p><strong>Yolcu:</strong> <span id="resName"></span></p>
-            <p><strong>Hat:</strong> <span id="resRoute"></span></p>
-            <p><strong>Kalkış:</strong> <span id="resTime"></span> | <strong>Koltuk:</strong> <span id="resSeat"></span></p>
-            <p><strong>Süre:</strong> <span id="resDuration"></span></p>
-            <p><strong>Araç:</strong> Travego 2+1 VIP</p>
-            <p><strong>Tarih:</strong> 10.04.2026</p>
-        </div>
-        <div style="text-align:center; margin-top:30px; border-top: 1px solid #eee; padding-top: 20px;">
+        <p><strong>Yolcu:</strong> <span id="resName"></span></p>
+        <p><strong>Güzergah:</strong> <span id="resRoute"></span></p>
+        <p><strong>Koltuk No:</strong> <span id="resSeat"></span></p>
+        <p><strong>Toplam Ücret:</strong> <span id="resPrice"></span></p>
+        <div style="text-align:center; margin-top:20px;">
             <img src="https://api.qrserver.com/v1/create-qr-code/?size=80x80&data=HasKaradenizBilet" alt="QR">
             <br><br>
-            <button onclick="window.print()" style="background:#333"><i class="fas fa-print"></i> YAZDIR / PDF</button>
-            <button onclick="location.reload()" style="background:#7f8c8d; margin-left:10px;">KAPAT</button>
+            <button onclick="window.print()">YAZDIR</button>
+            <button onclick="location.reload()" style="background:#7f8c8d">KAPAT</button>
         </div>
     </div>
 </div>
@@ -182,58 +130,26 @@
 <script>
     let selectedSeat = null;
     let selectedTripData = {};
-
-    // Güzergah Tanımları
-    const routeInfo = {
-        "Iğdır": ["Trabzon", "Gümüşhane", "Bayburt", "Erzurum", "Iğdır"],
-        "İstanbul": ["Trabzon", "Giresun", "Ordu", "Samsun", "Bolu", "İstanbul"],
-        "Ankara": ["Trabzon", "Gümüşhane", "Erzincan", "Sivas", "Ankara"]
-    };
+    let basePrice = 900;
+    let finalPrice = 900;
 
     function findTrips() {
-        const to = document.getElementById('to').value;
         const tripList = document.getElementById('trip-list');
         tripList.style.display = 'block';
-        tripList.innerHTML = '<h3 style="color:white; text-shadow: 1px 1px 3px rgba(0,0,0,0.5);">' + to + ' Yönüne Seferler</h3>';
-        
-        const hours = ["07:30", "12:00", "16:15", "20:30", "23:59"];
-
-        hours.forEach((time) => {
+        tripList.innerHTML = '<h3 style="color:white">Seferler</h3>';
+        ["09:00", "15:00", "22:00"].forEach(time => {
             tripList.innerHTML += `
                 <div class="trip-card">
-                    <div>
-                        <strong style="font-size:1.2rem">Has Karadeniz</strong><br>
-                        <div class="info-btn" onclick="openModal('${to}')">
-                            <i class="fas fa-map-marker-alt"></i> Güzergahı Gör
-                        </div>
-                    </div>
-                    <div style="text-align:center"><b>${time}</b><br><small style="color:var(--success)">Aktarmasız</small></div>
-                    <div style="color:var(--primary); font-weight:bold; font-size:1.1rem;">950 TL</div>
-                    <button onclick="showBus('${time}', '${to}')">Koltuk Seç</button>
-                </div>
-            `;
+                    <div><strong>Has Karadeniz</strong><br><small>Travego 2+1</small></div>
+                    <div><b>${time}</b></div>
+                    <div style="color:var(--primary); font-weight:bold">${basePrice} TL</div>
+                    <button onclick="showBus('${time}')">Seç</button>
+                </div>`;
         });
-        tripList.scrollIntoView();
     }
 
-    function openModal(dest) {
-        const steps = routeInfo[dest] || ["Bilgi bulunamadı"];
-        const container = document.getElementById('routeSteps');
-        container.innerHTML = steps.map((s, i) => `
-            <div class="route-step">
-                <div class="route-number">${i+1}</div>
-                <div>${s}</div>
-            </div>
-        `).join('');
-        document.getElementById('routeModal').style.display = "block";
-    }
-
-    function closeModal() {
-        document.getElementById('routeModal').style.display = "none";
-    }
-
-    function showBus(time, dest) {
-        selectedTripData = { time: time, from: "Trabzon", to: dest };
+    function showBus(time) {
+        selectedTripData = { time: time, from: "Trabzon", to: document.getElementById('to').value };
         document.getElementById('bus-selection').style.display = 'block';
         const container = document.getElementById('seats-container');
         container.innerHTML = '';
@@ -242,42 +158,50 @@
             const seat = document.createElement('div');
             seat.className = 'seat';
             seat.innerText = i;
-            if(Math.random() < 0.2) seat.classList.add('sold');
+            if(Math.random() < 0.1) seat.classList.add('sold');
+
             seat.onclick = function() {
-                if(!this.classList.contains('sold')) {
-                    document.querySelectorAll('.seat').forEach(s => s.classList.remove('selected'));
-                    this.classList.add('selected');
-                    selectedSeat = i;
-                    document.getElementById('passenger-info').style.display = 'block';
+                if(this.classList.contains('sold')) return;
+                
+                document.querySelectorAll('.seat').forEach(s => s.classList.remove('selected'));
+                this.classList.add('selected');
+                selectedSeat = i;
+                
+                // Tekli koltuk mantığı (1, 4, 7... yani i % 3 === 1)
+                if(i % 3 === 1) {
+                    finalPrice = basePrice + 50;
+                    document.getElementById('seatModal').style.display = "block";
+                } else {
+                    finalPrice = basePrice;
                 }
+                
+                document.getElementById('price-preview').innerText = "Toplam Ücret: " + finalPrice + " TL";
+                document.getElementById('passenger-info').style.display = 'block';
             };
+
             container.appendChild(seat);
-            if (i % 3 === 1) {
-                const aisle = document.createElement('div');
-                aisle.className = 'aisle';
-                container.appendChild(aisle);
-            }
+            if (i % 3 === 1) container.appendChild(document.createElement('div')).className = 'aisle';
         }
         document.getElementById('bus-selection').scrollIntoView();
     }
 
+    function closeSeatModal() {
+        document.getElementById('seatModal').style.display = "none";
+    }
+
     function buyTicket() {
         const name = document.getElementById('pName').value;
-        if(!name) return alert("Lütfen Yolcu İsmini Girin!");
+        if(!name) return alert("İsim giriniz!");
+        
         document.getElementById('bus-selection').style.display = 'none';
         document.getElementById('trip-list').style.display = 'none';
         document.querySelector('.search-panel').style.display = 'none';
         document.getElementById('ticket-result').style.display = 'block';
+        
         document.getElementById('resName').innerText = name.toUpperCase();
         document.getElementById('resRoute').innerText = "Trabzon → " + selectedTripData.to;
-        document.getElementById('resTime').innerText = selectedTripData.time;
         document.getElementById('resSeat').innerText = selectedSeat;
-        document.getElementById('resDuration').innerText = "Tahmini 13.5 Saat";
-    }
-
-    // Modal dışına tıklayınca kapatma
-    window.onclick = function(event) {
-        if (event.target == document.getElementById('routeModal')) closeModal();
+        document.getElementById('resPrice').innerText = finalPrice + " TL";
     }
 </script>
 </body>
