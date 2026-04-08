@@ -3,116 +3,70 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Has Karadeniz - Bilet Satış Sistemi</title>
+    <title>Has Karadeniz - Profesyonel Bilet Sistemi</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <style>
         :root {
             --primary: #004e92;
             --secondary: #000428;
             --accent: #f39c12;
             --success: #27ae60;
+            --bg: #f4f7f6;
         }
 
-        body {
-            font-family: 'Segoe UI', sans-serif;
-            background: #f4f7f6;
-            margin: 0;
-            padding: 20px;
-        }
-
+        body { font-family: 'Segoe UI', sans-serif; background: var(--bg); margin: 0; padding: 20px; }
         .container { max-width: 900px; margin: 0 auto; }
 
         header {
             background: linear-gradient(to right, var(--secondary), var(--primary));
-            color: white;
-            padding: 20px;
-            border-radius: 10px;
-            text-align: center;
-            margin-bottom: 20px;
+            color: white; padding: 30px; border-radius: 15px; text-align: center; margin-bottom: 20px;
         }
 
-        /* Arama Bölümü */
         .search-panel {
-            background: white;
-            padding: 20px;
-            border-radius: 10px;
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-            gap: 15px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            background: white; padding: 25px; border-radius: 15px;
+            display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 15px; box-shadow: 0 4px 15px rgba(0,0,0,0.1);
         }
 
-        input, select, button {
-            padding: 12px;
-            border-radius: 5px;
-            border: 1px solid #ddd;
-        }
+        input, select, button { padding: 12px; border-radius: 8px; border: 1px solid #ddd; }
+        button { background: var(--accent); color: white; border: none; cursor: pointer; font-weight: bold; }
 
-        button {
-            background: var(--accent);
-            color: white;
-            border: none;
-            cursor: pointer;
-            font-weight: bold;
-        }
-
-        /* Seferler */
-        .trip-list { margin-top: 20px; display: none; }
+        .trip-list { margin-top: 25px; display: none; }
         .trip-card {
-            background: white;
-            padding: 15px;
-            margin-bottom: 10px;
-            border-radius: 8px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            border-left: 6px solid var(--primary);
+            background: white; padding: 20px; margin-bottom: 15px; border-radius: 12px;
+            display: flex; justify-content: space-between; align-items: center;
+            border-left: 8px solid var(--primary);
         }
 
-        /* Otobüs Düzeni (2+1 Travego) */
-        .bus-layout {
-            background: white;
-            padding: 20px;
-            border-radius: 10px;
-            display: none;
-            margin-top: 20px;
-            overflow-x: auto;
+        .info-btn {
+            background: #e1f5fe; color: var(--primary); padding: 5px 10px; 
+            border-radius: 5px; cursor: pointer; font-size: 0.8rem; display: inline-block; margin-top: 5px;
         }
 
-        .seat-grid {
-            display: grid;
-            grid-template-columns: 40px 40px 40px 40px; /* 2+1 yerleşimi için boşluk dahil */
-            gap: 10px;
-            justify-content: center;
+        /* Modal */
+        .modal {
+            display: none; position: fixed; z-index: 1000; left: 0; top: 0;
+            width: 100%; height: 100%; background: rgba(0,0,0,0.7);
+        }
+        .modal-content {
+            background: white; margin: 15% auto; padding: 25px; border-radius: 15px;
+            width: 85%; max-width: 450px; text-align: center; position: relative;
         }
 
+        /* Otobüs */
+        .bus-layout { background: white; padding: 25px; border-radius: 15px; display: none; margin-top: 20px; }
+        .seat-grid { display: grid; grid-template-columns: 45px 45px 45px 45px; gap: 12px; justify-content: center; }
         .seat {
-            width: 35px;
-            height: 35px;
-            background: #eee;
-            border: 1px solid #ccc;
-            border-radius: 4px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 11px;
-            cursor: pointer;
+            width: 40px; height: 40px; background: #eee; border: 1px solid #ccc;
+            border-radius: 6px; display: flex; align-items: center; justify-content: center;
+            font-size: 12px; cursor: pointer;
         }
-
         .seat.selected { background: var(--success); color: white; }
         .seat.sold { background: #e74c3c; color: white; cursor: not-allowed; }
         .aisle { width: 30px; }
 
-        /* Bilet Çıktısı */
-        #ticket-result {
-            display: none;
-            background: white;
-            padding: 30px;
-            border: 2px dashed #333;
-            margin-top: 20px;
-            position: relative;
-        }
-
-        .ticket-header { border-bottom: 2px solid var(--primary); padding-bottom: 10px; margin-bottom: 20px; }
+        /* Bilet */
+        #ticket-result { display: none; background: white; padding: 40px; border: 2px dashed #333; margin-top: 20px; }
 
         @media print {
             body * { visibility: hidden; }
@@ -125,53 +79,64 @@
 
 <div class="container">
     <header>
-        <h1>HAS KARADENİZ</h1>
-        <p>Konforun Tek Adresi</p>
+        <h1>HAS KARADENİZ SEYAHAT</h1>
+        <p>Her Yolculuk Bir Hikayedir</p>
     </header>
 
     <div class="search-panel">
-        <select id="from">
-            <option value="İstanbul">İstanbul</option>
-            <option value="Rize">Rize</option>
-            <option value="Trabzon">Trabzon</option>
-            <option value="Ankara">Ankara</option>
-        </select>
-        <select id="to">
-            <option value="Trabzon">Trabzon</option>
-            <option value="İstanbul">İstanbul</option>
-            <option value="Artvin">Artvin</option>
-        </select>
-        <input type="date" value="2026-04-10">
-        <button onclick="findTrips()">Sefer Bul</button>
+        <div>
+            <label><small>Kalkış Noktası</small></label><br>
+            <select id="from" style="width: 100%;">
+                <option value="Trabzon">Trabzon</option>
+                <option value="Rize">Rize</option>
+            </select>
+        </div>
+        <div>
+            <label><small>Varış Noktası</small></label><br>
+            <select id="to" style="width: 100%;">
+                <option value="Iğdır">Iğdır</option>
+                <option value="İstanbul">İstanbul</option>
+                <option value="Ankara">Ankara</option>
+            </select>
+        </div>
+        <div>
+            <label><small>Gidiş Tarihi</small></label><br>
+            <input type="date" id="travelDate" style="width: 90%;">
+        </div>
+        <button onclick="findTrips()" style="margin-top: 18px;">SEFER ARA</button>
     </div>
 
-    <div id="trip-list" class="trip-list">
+    <div id="trip-list" class="trip-list"></div>
+
+    <div id="routeModal" class="modal">
+        <div class="modal-content">
+            <h3 style="color:var(--primary)">Sefer Güzergahı</h3>
+            <div id="routeSteps" style="text-align: left; margin: 20px 0; font-size: 1.1rem;"></div>
+            <button onclick="closeModal()" style="background:#7f8c8d">Kapat</button>
         </div>
+    </div>
 
     <div id="bus-selection" class="bus-layout">
-        <h3 style="text-align:center">Travego 2+1 - Koltuk Seçimi</h3>
+        <h3 style="text-align:center">Travego 2+1 VIP - Koltuk Seçimi</h3>
         <div id="seats-container" class="seat-grid"></div>
-        
         <div id="passenger-info" style="margin-top:20px; text-align:center; display:none;">
-            <input type="text" id="pName" placeholder="Ad Soyad Giriniz">
-            <button onclick="buyTicket()" style="background:var(--success)">SATIN AL VE BİLETİ ÇIKAR</button>
+            <input type="text" id="pName" placeholder="Ad Soyad" style="width:200px;">
+            <button onclick="buyTicket()" style="background:var(--success)">BİLETİ ONAYLA</button>
         </div>
     </div>
 
     <div id="ticket-result">
-        <div class="ticket-header">
-            <h2>HAS KARADENİZ SEYAHAT BİLETİ</h2>
-            <p id="tNo">Bilet No: #HK88231</p>
-        </div>
-        <p><strong>Yolcu Adı:</strong> <span id="resName"></span></p>
-        <p><strong>Güzergah:</strong> <span id="resRoute"></span></p>
-        <p><strong>Kalkış Saati:</strong> <span id="resTime"></span></p>
-        <p><strong>Sefer Süresi:</strong> <span id="resDuration"></span></p>
-        <p><strong>Koltuk No:</strong> <span id="resSeat"></span></p>
-        <p><strong>Araç Tipi:</strong> Travego 2+1 VIP</p>
+        <center><h2>HAS KARADENİZ BİLETİ</h2></center>
         <hr>
-        <button onclick="window.print()">Yazdır</button>
-        <button onclick="location.reload()" style="background:#7f8c8d">Yeni Arama</button>
+        <p><strong>Yolcu:</strong> <span id="resName"></span></p>
+        <p><strong>Hat:</strong> <span id="resRoute"></span></p>
+        <p><strong>Kalkış:</strong> <span id="resTime"></span> | <strong>Koltuk:</strong> <span id="resSeat"></span></p>
+        <p><strong>Süre:</strong> <span id="resDuration"></span></p>
+        <div style="text-align:center">
+            <img src="https://api.qrserver.com/v1/create-qr-code/?size=80x80&data=HasKaradeniz" alt="QR">
+            <br><br>
+            <button onclick="window.print()">YAZDIR</button>
+        </div>
     </div>
 </div>
 
@@ -179,51 +144,60 @@
     let selectedSeat = null;
     let selectedTripData = {};
 
+    // Güzergah Tanımları
+    const routeInfo = {
+        "Iğdır": ["Trabzon", "Gümüşhane", "Bayburt", "Erzurum", "Iğdır"],
+        "İstanbul": ["Trabzon", "Giresun", "Ordu", "Samsun", "Bolu", "İstanbul"],
+        "Ankara": ["Trabzon", "Gümüşhane", "Erzincan", "Sivas", "Ankara"]
+    };
+
     function findTrips() {
+        const to = document.getElementById('to').value;
         const tripList = document.getElementById('trip-list');
         tripList.style.display = 'block';
-        tripList.innerHTML = '';
+        tripList.innerHTML = '<h3>' + to + ' Yönüne Seferler</h3>';
         
-        const hours = ["09:00", "13:30", "18:00", "21:00", "23:55"];
-        const duration = "14 Saat";
+        const hours = ["07:00", "11:30", "16:00", "21:00", "23:45"];
 
-        hours.forEach((time, index) => {
+        hours.forEach((time) => {
             tripList.innerHTML += `
                 <div class="trip-card">
                     <div>
                         <strong>Has Karadeniz</strong><br>
-                        <small>Travego 2+1 Rahat</small>
+                        <div class="info-btn" onclick="openModal('${to}')">
+                            <i class="fas fa-map-marker-alt"></i> Durakları Gör
+                        </div>
                     </div>
-                    <div>${time}<br><small>${duration}</small></div>
-                    <div>750 TL</div>
-                    <button onclick="showBus('${time}', '${duration}')">Seç</button>
+                    <div><b>${time}</b><br><small>12-14 Saat</small></div>
+                    <div style="color:var(--primary); font-weight:bold;">900 TL</div>
+                    <button onclick="showBus('${time}', '${to}')">Seç</button>
                 </div>
             `;
         });
     }
 
-    function showBus(time, duration) {
-        selectedTripData = {
-            time: time,
-            duration: duration,
-            from: document.getElementById('from').value,
-            to: document.getElementById('to').value
-        };
-        
-        const busSelection = document.getElementById('bus-selection');
-        busSelection.style.display = 'block';
+    function openModal(dest) {
+        const steps = routeInfo[dest] || ["Bilgi bulunamadı"];
+        const container = document.getElementById('routeSteps');
+        container.innerHTML = steps.map((s, i) => `<div>${i+1}. ${s}</div>`).join('<div style="margin-left:10px; color:#ccc">↓</div>');
+        document.getElementById('routeModal').style.display = "block";
+    }
+
+    function closeModal() {
+        document.getElementById('routeModal').style.display = "none";
+    }
+
+    function showBus(time, dest) {
+        selectedTripData = { time: time, from: "Trabzon", to: dest };
+        document.getElementById('bus-selection').style.display = 'block';
         const container = document.getElementById('seats-container');
         container.innerHTML = '';
 
-        // 41 Koltuklu 2+1 Düzeni Oluşturma
         for (let i = 1; i <= 41; i++) {
             const seat = document.createElement('div');
             seat.className = 'seat';
             seat.innerText = i;
-            
-            // Rastgele dolu koltuklar
             if(Math.random() < 0.2) seat.classList.add('sold');
-
             seat.onclick = function() {
                 if(!this.classList.contains('sold')) {
                     document.querySelectorAll('.seat').forEach(s => s.classList.remove('selected'));
@@ -232,34 +206,27 @@
                     document.getElementById('passenger-info').style.display = 'block';
                 }
             };
-
             container.appendChild(seat);
-            // 2+1 Koridor Boşluğu
             if (i % 3 === 1) {
                 const aisle = document.createElement('div');
                 aisle.className = 'aisle';
                 container.appendChild(aisle);
             }
         }
-        busSelection.scrollIntoView();
     }
 
     function buyTicket() {
         const name = document.getElementById('pName').value;
-        if(!name) return alert("Lütfen adınızı girin!");
-
+        if(!name) return alert("İsim giriniz!");
         document.getElementById('bus-selection').style.display = 'none';
         document.getElementById('trip-list').style.display = 'none';
-        document.querySelector('.search-panel').style.display = 'none';
-
         document.getElementById('ticket-result').style.display = 'block';
-        document.getElementById('resName').innerText = name;
-        document.getElementById('resRoute').innerText = selectedTripData.from + " > " + selectedTripData.to;
+        document.getElementById('resName').innerText = name.toUpperCase();
+        document.getElementById('resRoute').innerText = "Trabzon → " + selectedTripData.to;
         document.getElementById('resTime').innerText = selectedTripData.time;
-        document.getElementById('resDuration').innerText = selectedTripData.duration;
         document.getElementById('resSeat').innerText = selectedSeat;
+        document.getElementById('resDuration').innerText = "Tahmini 13 Saat";
     }
 </script>
-
 </body>
 </html>
