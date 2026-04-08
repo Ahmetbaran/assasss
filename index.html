@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8">
+<title>Has Karadeniz</title>
+
+<style>
+body {
+    font-family: Arial;
+    background: linear-gradient(#0a3d62,#1e3799);
+    color: white;
+    text-align: center;
+}
+
+.logo {
+    font-size: 30px;
+    font-weight: bold;
+    margin: 20px;
+}
+
+.container {
+    margin-top: 20px;
+}
+
+select, button, input {
+    padding: 10px;
+    margin: 5px;
+    border-radius: 5px;
+    border: none;
+}
+
+button {
+    background: #00a8ff;
+    color: white;
+    cursor: pointer;
+}
+
+.sefer {
+    margin: 10px;
+    padding: 10px;
+    background: #273c75;
+    border-radius: 10px;
+}
+
+.koltuklar {
+    display: grid;
+    grid-template-columns: repeat(5, 50px);
+    gap: 10px;
+    justify-content: center;
+    margin-top: 10px;
+}
+
+.koltuk-btn {
+    padding: 10px;
+    background: white;
+    color: black;
+    cursor: pointer;
+    border-radius: 5px;
+}
+
+.dolu {
+    background: red;
+    color: white;
+    cursor: not-allowed;
+}
+
+.secili {
+    background: green !important;
+    color: white;
+}
+</style>
+</head>
+
+<body>
+
+<div class="logo">🚌 HAS KARADENİZ</div>
+
+<select id="from"></select>
+<select id="to"></select>
+<br>
+<button onclick="seferleriGoster()">Seferleri Göster</button>
+
+<div id="seferler"></div>
+<div id="koltukAlani"></div>
+<div id="formAlani"></div>
+<div id="bilet"></div>
+
+<script>
+// DOM elementlerini seç
+const from = document.getElementById("from");
+const to = document.getElementById("to");
+const seferler = document.getElementById("seferler");
+const koltukAlani = document.getElementById("koltukAlani");
+const formAlani = document.getElementById("formAlani");
+const bilet = document.getElementById("bilet");
+
+// Şehirler
+const iller = ["Adana","Ankara","İstanbul","İzmir","Erzurum","Trabzon","Bursa","Antalya","Samsun","Van"];
+iller.forEach(il => {
+    from.innerHTML += `<option>${il}</option>`;
+    to.innerHTML += `<option>${il}</option>`;
+});
+
+// Demo dolu koltuklar
+let doluKoltuklar = {
+    0: [1,5,10],
+    1: [3,7],
+    2: [2,8,15],
+    3: [6,9]
+};
+
+let secilenSefer = null;
+let secilenKoltuk = null;
+
+function seferleriGoster() {
+    const saatler = ["08:00","12:00","16:00","20:00"];
+    const fiyatlar = [200,250,300,350];
+
+    let html = "<h2>Seferler</h2>";
+
+    saatler.forEach((saat,i)=>{
+        html += `
+        <div class="sefer">
+        ${from.value} → ${to.value} | ${saat} | ${fiyatlar[i]} TL
+        <br><button onclick="koltukSec(${i})">Seç</button>
+        </div>`;
+    });
+
+    seferler.innerHTML = html;
+    koltukAlani.innerHTML = "";
+    formAlani.innerHTML = "";
+    bilet.innerHTML = "";
+}
+
+function koltukSec(i){
+    secilenSefer = i;
+    let html = "<h2>Koltuk Seç</h2><div class='koltuklar'>";
+
+    for(let k=1;k<=41;k++){
+        const dolu = doluKoltuklar[i].includes(k);
+        html += `<div class="koltuk-btn ${dolu?'dolu':''}" id="koltuk${k}">${k}</div>`;
+    }
+
+    html += "</div>";
+    koltukAlani.innerHTML = html;
+
+    // Koltuk tıklama olayları
+    for(let k=1;k<=41;k++){
+        const btn = document.getElementById(`koltuk${k}`);
+        if(!btn.classList.contains("dolu")){
+            btn.addEventListener("click",()=>koltukTikla(btn,k));
+        }
+    }
+
+    // Form
+    formAlani.innerHTML = `
+    <select id="cinsiyet">
+        <option>Erkek</option>
+        <option>Kadın</option>
+    </select><br>
+    <input id="isim" placeholder="İsim">
+    <input id="soyisim" placeholder="Soyisim"><br>
+    <button onclick="odeme()">Ödeme Yap</button>
+    `;
+}
+
+function koltukTikla(el,no){
+    document.querySelectorAll(".koltuk-btn").forEach(k=>k.classList.remove("secili"));
+    el.classList.add("secili");
+    secilenKoltuk = no;
+}
+
+function odeme(){
+    const isimInput = document.getElementById("isim");
+    const soyisimInput = document.getElementById("soyisim");
+    const cinsiyetInput = document.getElementById("cinsiyet");
+
+    if(!secilenKoltuk){
+        alert("Lütfen koltuk seçin!");
+        return;
+    }
+
+    // Koltuğu dolu yap (demo)
+    doluKoltuklar[secilenSefer].push(secilenKoltuk);
+
+    bilet.innerHTML = `
+    <h2>Biletiniz</h2>
+    <div class="sefer">
+    ${from.value} → ${to.value}<br>
+    Koltuk: ${secilenKoltuk}<br>
+    ${isimInput.value} ${soyisimInput.value}<br>
+    ${cinsiyetInput.value}
+    </div>
+    `;
+
+    // Seçimi temizle
+    koltukAlani.innerHTML = "";
+    formAlani.innerHTML = "";
+}
+</script>
+
+</body>
+</html>
